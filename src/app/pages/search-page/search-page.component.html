@@ -1,0 +1,19 @@
+<h1>Jokes !!! </h1>
+
+<p *ngIf="joke">{{joke.value}}</p>
+
+<mat-form-field class="demo-chip-list">
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+               [removable]="removable" (removed)="remove(fruit)">
+        {{fruit.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="New fruit..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)" 
+             (paste)="paste($event)"/>
+    </mat-chip-list>
+  </mat-form-field>

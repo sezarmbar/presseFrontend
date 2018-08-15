@@ -1,7 +1,9 @@
 import { COMMA, ENTER, SEMICOLON } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
+import{DataService, SearchService}from '../../services';
+import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
 
-import{DataService}from '../../services/data.service';
+import { Image } from '../../model/image';
 import { MatChipInputEvent } from '@angular/material';
 import {SwUpdate} from '@angular/service-worker';
 
@@ -12,10 +14,12 @@ import {SwUpdate} from '@angular/service-worker';
 })
 export class SearchPageComponent implements OnInit {
 
+  images: Image[];
   title = 'Maria Barakat';
   joke:any;
 update: boolean=false;
-  constructor(update:SwUpdate, private serviceData:DataService){
+  constructor(private http:HttpClient,update:SwUpdate, private serviceData:DataService,private searchService:SearchService){
+
     update.available.subscribe(event=>{
       // this.update  = true;
       update.activateUpdate().then(()=> document.location.reload());
@@ -26,6 +30,7 @@ update: boolean=false;
     this.serviceData.gimmeJokes().subscribe(res=>{
       this.joke = res;
     })
+
   }
 
   visible: boolean = true;
@@ -36,11 +41,7 @@ update: boolean=false;
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA, SEMICOLON];
 
-  fruits = [
-    { name: 'Lemon' },
-    { name: 'Lime' },
-    { name: 'Apple' },
-  ];
+  fruits :Fruits[ ]=[];
 
   paste(event: ClipboardEvent): void {
     event.preventDefault();
@@ -65,7 +66,21 @@ update: boolean=false;
     // Reset the input value
     if (input) {
       input.value = '';
+    }    
+    let keys:string='';
+    for(let key in this.fruits ){
+      if(keys!=''){
+        keys = keys+','
+      }
+       keys=keys+'\''+this.fruits[key].name+'\''
     }
+    
+    console.log(keys)
+    if(!(keys=='')){
+      this.searchService.getIds(keys).subscribe(images=>  this.images=images);
+    }
+
+
   }
 
   remove(fruit: any): void {
@@ -75,4 +90,44 @@ update: boolean=false;
       this.fruits.splice(index, 1);
     }
   }
+
+  pictures = [
+    {
+      id: 1,
+      title: 'A natural view',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/8V46UZCS0V.jpg'
+    },
+    {
+      id: 2,
+      title: 'Newspaper',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/LTLE4QGRVQ.jpg'
+    },
+    {
+      id: 3,
+      title: 'Favourite pizza',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/R926LU1YEA.jpg'
+    },
+    {
+      id: 4,
+      title: 'Abstract design',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/U9PP3KXXY2.jpg'
+    },
+    {
+      id: 5,
+      title: 'Tech',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/NO9CN3QYR3.jpg'
+    },
+    {
+      id: 6,
+      title: 'Nightlife',
+      img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/X1UK6NLGRU.jpg'
+    },
+  ];
+
+
+  
+}
+
+class Fruits{
+  constructor(public name:string){}
 }

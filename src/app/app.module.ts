@@ -1,8 +1,10 @@
+import { DataService, SearchService }from './services';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { DataService }from './services/data.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from './material/material.module';
@@ -18,7 +20,7 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     MaterialModule,
-
+    FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -26,7 +28,7 @@ import { environment } from '../environments/environment';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     LayoutModule
   ],
-  providers: [DataService],
+  providers: [DataService,SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

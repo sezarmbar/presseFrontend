@@ -17,3 +17,28 @@
              (paste)="paste($event)"/>
     </mat-chip-list>
   </mat-form-field>
+
+
+
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+  <mat-card class="card-picture" *ngFor="let picture of pictures">
+    <!-- <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+      <span fxFlex="90%" >{{picture.title}}</span>
+    </mat-card-title> -->
+    <img mat-card-image [src]="picture.img">
+  </mat-card>
+  </div>
+
+  <mat-card class="card-picture" *ngFor="let image of images">
+    <img mat-card-image src="http://localhost:8080/api/files/{{image.id}}" alt="{{image.imageName}}">
+    <mat-card-content  fxLayout.gt-xs="row" fxLayout.xs="column">
+      <p>
+        <span fxFlex="98%" >  {{image.imageName}}</span>
+      </p>
+    </mat-card-content>
+    <mat-card-actions fxLayout.gt-xs="row" fxLayout.xs="column">
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
